@@ -1,4 +1,4 @@
-3.3.2 PROGRAMMING IN ARDUINO FOR SMART CAR PARKING SYSTEM
+PROGRAMMING IN ARDUINO FOR SMART CAR PARKING SYSTEM
 #include <Servo.h>
 Servo myservo1, myservo2;
 int ir1 = 11, ir2 = 12, ir3 = 7, ir4 = 8, m1 = 5, m2 = 6, i=0;
