@@ -1,0 +1,69 @@
+3.3.2 PROGRAMMING IN ARDUINO FOR SMART CAR PARKING SYSTEM
+#include <Servo.h>
+Servo myservo1, myservo2;
+int ir1 = 11, ir2 = 12, ir3 = 7, ir4 = 8, m1 = 5, m2 = 6, i=0;
+int in_open = 80, in_close=0, out_open = 90, out_close=180;
+int red = 3, green = 2;
+int maxcar = 9;
+void setup() {
+  Serial.begin(9600);
+  pinMode(ir1, INPUT);
+  pinMode(ir2, INPUT);
+  pinMode(ir3, INPUT); 
+  pinMode(ir4, INPUT);
+  pinMode(red,OUTPUT);
+  pinMode(green,OUTPUT);
+  //pinMode(4,OUTPUT);
+  //digitalWrite(4,0);  
+  myservo1.attach(m1);
+  myservo2.attach(m2);
+  delay(50);
+  myservo1.write(in_close);
+  myservo2.write(out_close);
+
+  digitalWrite(red,HIGH);
+  digitalWrite(green,HIGH);
+  delay(1000);
+}
+void loop() {
+                            if(i<maxcar){  
+                              digitalWrite(red,LOW);
+                              digitalWrite(green,HIGH);
+                            }
+                            if(i==maxcar){
+                              digitalWrite(red,HIGH);
+                              digitalWrite(green,LOW);                              
+                            }
+  
+                            if ((digitalRead(ir1) == 1)  && (i<maxcar) ) {
+                              delay(100);;
+                               
+                                myservo1.write(in_open);
+                                Serial.println("OPEN1");
+                                while(digitalRead(ir1) != 0);
+                            }
+                            if((digitalRead(ir2) == 1) && (i<maxcar)){
+                              delay(100);;
+                              while(digitalRead(ir2) == 1);
+                              myservo1.write(in_close);
+                               Serial.println("close1");
+                               i=i+1;
+                                 Serial.println(i);
+                              delay(300); 
+                            }
+                           if ((digitalRead(ir3) == 1)  && (i >0)) {
+                            delay(100);;
+                                     myservo2.write(out_open);
+                                     Serial.println("OPEN2");
+                                     while (digitalRead(ir3) == 1); 
+                          }
+                          if((digitalRead(ir4) == 1)&& (i>0)){
+                              delay(100);;
+                              while(digitalRead(ir4) != 0);
+                            myservo2.write(out_close);
+                             Serial.println("close2");
+                             i=i-1;
+                             Serial.println(i);
+                          delay(300);;
+                          }
+}
